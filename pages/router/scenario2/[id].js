@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import {sendToMobile} from '../../../lib/ably'
 
-export default function Scenario1() {
+export default function Scenario2() {
 
   const router = useRouter()
 
@@ -26,11 +26,10 @@ export default function Scenario1() {
     <div>
       <div>
         <section className="mb-6">
-          <h2 className="mb-3 text-xl font-bold">Scenario One</h2>
+          <h2 className="mb-3 text-xl font-bold">Scenario Two</h2>
         </section>
         <section>
-            You will need to provide the <strong>Addresses</strong> and  <strong>Listen Port</strong> information (in the Interface section) and the <strong>Public Key, Allowed IPs</strong> and <strong>Endpoint</strong> information (in the Peer section) to the mobile phone.
-        </section>
+          You will need to hold your mobile phone up to this qrcode transfer the configurationto your phone.  You will then need to copy the <strong>public key</strong> from your mobile phone to the <strong>Public Key</strong> field in the Peer section.    </section>
         <section className="flex flex-row justify-center p-8">
             <button className="p-4 uppercase font-bold" onClick={done}>Done!</button>
             <button className="p-4 uppercase font-bold" onClick={fail}>I couldn't do this</button>

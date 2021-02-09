@@ -1,7 +1,5 @@
 
-const IndexPage = () => {
-  const id = Math.round(Math.random()  * 500);
-
+const IndexPage = ({id}) => {
   return (
     <div id="welcome">
         <p>
@@ -26,5 +24,11 @@ const IndexPage = () => {
     </div>
   );
 };
+
+export async function getStaticProps(context) {
+  return {
+    props: {id: Math.round(Math.random()  * 500)}
+  }
+}
 
 export default IndexPage;

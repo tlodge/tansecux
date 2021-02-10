@@ -30,10 +30,12 @@ export default function Scenario1Feedback() {
  });
 
  const feedback = ()=>{
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario2/intro/${id}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario2/intro/${id}`});
     router.push(`/router/scenario2/intro/${id}`);
  }
 
+ console.log("router is", router);
  return (
     <div>
       <div>
@@ -76,3 +78,4 @@ export default function Scenario1Feedback() {
     </div>
   );
 }
+  

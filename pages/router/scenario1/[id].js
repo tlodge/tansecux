@@ -4,6 +4,7 @@ import {sendToMobile} from '../../../lib/ably'
 export default function Scenario1() {
 
   const router = useRouter()
+ 
 
   const sendMessageToMobile = (message)=>{
     const { id } = router.query
@@ -12,13 +13,15 @@ export default function Scenario1() {
 
   const done = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario1/feedback/${id}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario1/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario1/feedback/${id}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario1/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
 

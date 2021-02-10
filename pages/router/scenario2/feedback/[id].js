@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router'
 import {sendToMobile} from '../../../../lib/ably'
 
-export default function Scenario3Feedback() {
+export default function Scenario2Feedback() {
 
   const router = useRouter()
-  const { id } = router.query
+  const { id } = router.query;
+
+
   const understandrow = [1,2,3,4,5].map(i=>{
         return (<div className="pr-8">
             <label className="inline-flex items-center">
@@ -29,7 +31,8 @@ export default function Scenario3Feedback() {
 }
 
  const feedback = ()=>{
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario3/intro/${id}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario3/intro/${id}`});
     router.push(`/router/scenario3/intro/${id}`);
  }
   return (

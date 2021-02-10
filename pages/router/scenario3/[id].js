@@ -69,7 +69,7 @@ export default function Scenario3() {
 
   const router = useRouter()
   const svg = React.useRef(null);
-
+  
   React.useEffect(() => {
     drawChart(svg);
   }, [svg]);
@@ -81,13 +81,15 @@ export default function Scenario3() {
 
   const done = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario3/feedback/${id}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario3/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario3/feedback/${id}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario3/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
 

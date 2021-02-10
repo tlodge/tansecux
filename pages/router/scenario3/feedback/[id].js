@@ -4,7 +4,7 @@ import {sendToMobile} from '../../../../lib/ably'
 export default function Scenario3Feedback() {
 
   const router = useRouter()
-  const { id } = router.query
+  
 
   const sendMessageToMobile = (message)=>{
     const { id } = router.query
@@ -30,7 +30,8 @@ export default function Scenario3Feedback() {
  });
 
  const feedback = ()=>{
-    sendMessageToMobile({type:"path", path:`${process.env.ROOT}`});
+    const home = window ? window.location.origin : '';
+    sendMessageToMobile({type:"path", path:`${home}`});
     router.push(`/`);
  }
 

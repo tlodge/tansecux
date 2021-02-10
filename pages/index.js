@@ -16,7 +16,7 @@ const IndexPage = ({id}) => {
           </div> 
           <div className="flex flex-col p-6">
             <div>Enter the following url on your mobile</div>
-            <div><a href={`/mobile/scenario1/intro/${id}`} target="_blank">{`${process.env.ROOT}}/mobile/scenario1/intro/${id}`}</a></div>
+            <div><a href={`/mobile/scenario1/intro/${id}`} target="_blank">{`${process.env.ROOT}/mobile/scenario1/intro/${id}`}</a></div>
           </div> 
         </div>
 

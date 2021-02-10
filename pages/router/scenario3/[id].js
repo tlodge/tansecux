@@ -81,13 +81,13 @@ export default function Scenario3() {
 
   const done = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario3/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario3/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
 

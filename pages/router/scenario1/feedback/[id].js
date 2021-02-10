@@ -30,7 +30,7 @@ export default function Scenario1Feedback() {
  });
 
  const feedback = ()=>{
-    sendMessageToMobile({type:"path", path:`/mobile/scenario2/intro/${id}`});
+    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario2/intro/${id}`});
     router.push(`/router/scenario2/intro/${id}`);
  }
 

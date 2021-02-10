@@ -12,13 +12,13 @@ export default function Scenario1() {
 
   const done = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario1/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario1/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
 

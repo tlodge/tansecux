@@ -12,7 +12,7 @@ export default function Scenario1Intro() {
 
   const start = ()=>{
     const { id } = router.query;
-    sendMessageToMobile({type:"path", path:`../${id}`});
+    sendMessageToMobile({type:"path", path:`${process.env.ROOT}/mobile/scenario1/${id}`});
     router.push(`../${id}`);
   }
   

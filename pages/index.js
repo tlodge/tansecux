@@ -12,11 +12,11 @@ const IndexPage = ({id}) => {
         <div className="flex flex-row">            
           <div className="flex flex-col p-6">
             <div>Click the following url on your desktop</div>
-            <div><a href={`/router/scenario1/intro/${id}`} target="_blank">{`[]/router/scenario1/intro/${id}`}</a></div>
+            <div><a href={`/router/scenario1/intro/${id}`} target="_blank">{`${process.env.ROOT}/router/scenario1/intro/${id}`}</a></div>
           </div> 
           <div className="flex flex-col p-6">
             <div>Enter the following url on your mobile</div>
-            <div><a href={`/mobile/scenario1/intro/${id}`} target="_blank">{`[]/mobile/scenario1/intro/${id}`}</a></div>
+            <div><a href={`/mobile/scenario1/intro/${id}`} target="_blank">{`${process.env.ROOT}}/mobile/scenario1/intro/${id}`}</a></div>
           </div> 
         </div>
 

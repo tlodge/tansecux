@@ -1,10 +1,12 @@
 import { useRouter } from 'next/router'
 import {subscribe} from '../../../lib/ably'
 import {useCamera} from '../../../lib/useCamera'
-import { useEffect, createRef, useRef } from 'react'
+import { useEffect, createRef, useRef, useState } from 'react'
 import jsQR from 'jsqr';
 
 export default function Scenario2() {
+
+  const [code, setCode] = useState();
 
   const router = useRouter()
   const videoRef = createRef();
@@ -13,16 +15,6 @@ export default function Scenario2() {
 
   const [video, isCameraInitialised, running, setPlaying, error] = useCamera(videoRef);
   let canvas;
-
-
-  const drawLine = (begin, end, color)=>{
-    canvas.beginPath();
-    canvas.moveTo(begin.x, begin.y);
-    canvas.lineTo(end.x, end.y);
-    canvas.lineWidth = 4;
-    canvas.strokeStyle = color;
-    canvas.stroke();
-  }
 
   const checkforQR = ()=>{
 
@@ -36,22 +28,37 @@ export default function Scenario2() {
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
         const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
 
-        const code = jsQR(imageData.data, imageData.width, imageData.height, {
-          inversionAttempts: "dontInvert",
-        });
+        if (!code){
+          const _code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert",
+          });
 
-        if (code){
-            console.log(code);
-            drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-            drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-            drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-            drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+          if (_code){
+              setCode(_code);
+              video.pause();
+          }
         }
       }catch(err){
         //ignore...
       }
     }
     requestAnimationFrame(checkforQR);
+  }
+
+  const renderConfig = ()=>{
+    return (
+      <section className="bg-gray-300 p-4 pt-8 pl-8 pb-12">
+
+      <div className="font-semibold text-lg mb-8"> successfully read in router configuration from qrcode</div>
+
+      <div className=" font-semibold"> Router Public Key</div>
+      <div className="pt-2 flex "><input type="textfield" className="h-8 w-3/4 pl-4"></input></div>
+      
+      <div className="pt-8 font-semibold"> Router Public Key</div>
+      <div className="pt-2 flex "><input type="textfield" className="h-8 w-3/4 pl-4"></input></div>
+
+      </section>);
+
   }
 
   const renderCamera = ()=>{
@@ -93,7 +100,8 @@ export default function Scenario2() {
           <h2 className="mb-3 text-xl font-bold">Scenario Two (mobile)</h2>
         </section>
         <section>
-          {renderCamera()}
+          {!code && renderCamera()}
+          {code && renderConfig()}
           <canvas className="hidden" ref={canvasRef}></canvas>
         </section>
       </div>

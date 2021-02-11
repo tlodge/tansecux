@@ -1,14 +1,24 @@
 import { useRouter } from 'next/router'
 import {sendToMobile} from '../../../lib/ably'
+import QRCode from 'qrcode';
+import {createRef, useEffect} from 'react';
 
 export default function Scenario2() {
 
   const router = useRouter()
+  const canvasRef = createRef();
   
   const sendMessageToMobile = (message)=>{
     const { id } = router.query
     sendToMobile(id, message);
   }
+
+  useEffect(() => {
+    QRCode.toCanvas(canvasRef.current, 'sample text', function (error) {
+      if (error) console.error(error)
+      console.log('success!');
+    });
+  },[]);
 
   const done = ()=>{
     const { id } = router.query;
@@ -29,6 +39,9 @@ export default function Scenario2() {
       <div>
         <section className="mb-6">
           <h2 className="mb-3 text-xl font-bold">Scenario Two</h2>
+        </section>
+        <section>
+            <canvas id="canvas" ref={canvasRef}></canvas>
         </section>
         <section>
           You will need to hold your mobile phone up to this qrcode transfer the configurationto your phone.  You will then need to copy the <strong>public key</strong> from your mobile phone to the <strong>Public Key</strong> field in the Peer section.    </section>

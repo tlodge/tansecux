@@ -36,8 +36,6 @@ export default function Scenario2() {
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
         const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
 
-        console.log(imageData);
-
         const code = jsQR(imageData.data, imageData.width, imageData.height, {
           inversionAttempts: "dontInvert",
         });
@@ -96,7 +94,7 @@ export default function Scenario2() {
         </section>
         <section>
           {renderCamera()}
-          <canvas ref={canvasRef}></canvas>
+          <canvas className="hidden" ref={canvasRef}></canvas>
         </section>
       </div>
      

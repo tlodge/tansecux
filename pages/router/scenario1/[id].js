@@ -46,7 +46,7 @@ export default function Scenario1() {
   },[valid]);
 
   const renderComplete = ()=>{
-    return <div className="p-4 bg-gray-500 text-white text-lg shadow rounded">Successfully configured on the mobile!  Thanks</div>
+    return <div className="p-4 bg-gray-500 text-white text-lg shadow rounded">Successfully configured on the router!  Thanks</div>
   }
 
   return (
@@ -66,7 +66,7 @@ export default function Scenario1() {
             <div className="font-semibold"> Private key </div>
             <div className="pt-6 flex "><input type="password" className="w-full h-12" value="my private key which you cannot see or copy"></input></div>  
             <div className="mt-6  font-semibold"> Public key </div>
-            <div className="pt-6 flex "><input type="text" className="w-full h-12" value="wFwsYTinuuUvZZ5TwOkEE3Ph2V7rpqseA/cv6RS66HI="></input></div>       
+            <div className="pt-6 flex "><input type="text" className="w-full h-12" value="sTwsJLinpoUvGH7TwOkEE3Ph2V7hjutdAic/6RS7aHP="></input></div>       
             <div className="font-semibold mt-4"> Listen Port </div>
             <div className="pt-6 flex flex-row items-center justify-center">
                 <input  type="text" className="w-full h-12" value="51820"></input>

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import {subscribe} from '../../../lib/ably'
+import {subscribe, sendToRouter} from '../../../lib/ably'
 import {useCamera} from '../../../lib/useCamera'
 import { useEffect, createRef, useRef, useState } from 'react'
 import jsQR from 'jsqr';
@@ -28,6 +28,11 @@ export default function Scenario2() {
   const handleChange = (field, value)=>{
     setValues({...values, [field]: value});
     setValid({...valid,   [field]: expectedValues[field]==value});  
+  }
+
+  const sendMessageToRouter = (message)=>{
+    const { id } = router.query
+    sendToRouter(id, message);
   }
 
   const [video, isCameraInitialised, running, setPlaying, error] = useCamera(videoRef);
@@ -100,21 +105,13 @@ export default function Scenario2() {
   }, [router.query.id]);
 
   useEffect(() => {
-   
-    const { id } = router.query
-    if (id){
-      subscribe(id, ({data})=>{
-        const {path} = data;
-        router.push(path);
-      });
+    const _complete = Object.keys(expectedValues).reduce((acc,key)=>{
+      return acc && valid[key];
+    },true);
+    if (_complete){
+      sendMessageToRouter({type:"complete"});
     }
-  }, [router.query.id]);
-
-
-  useEffect(() => {
-      setComplete(Object.keys(expectedValues).reduce((acc,key)=>{
-        return acc && valid[key];
-      },true));
+    setComplete(_complete);
   },[valid]);
 
   const renderComplete = ()=>{

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import {subscribe} from '../../../lib/ably'
+import {subscribe, sendToRouter} from '../../../lib/ably'
 import { useEffect, useState } from 'react'
 
 const expectedValues = {
@@ -25,6 +25,12 @@ export default function Scenario1() {
     setValid({...valid,   [field]: expectedValues[field]==value});  
   }
 
+  const sendMessageToRouter = (message)=>{
+    const { id } = router.query
+    sendToRouter(id, message);
+  }
+
+
   useEffect(() => {
    
     const { id } = router.query
@@ -38,10 +44,15 @@ export default function Scenario1() {
 
 
   useEffect(() => {
-      setComplete(Object.keys(expectedValues).reduce((acc,key)=>{
-        return acc && valid[key];
-      },true));
+    const _complete = Object.keys(expectedValues).reduce((acc,key)=>{
+      return acc && valid[key];
+    },true);
+    if (_complete){
+      sendMessageToRouter({type:"complete"});
+    }
+    setComplete(_complete);
   },[valid]);
+
 
   const renderComplete = ()=>{
     return <div className="p-4 bg-gray-500 text-white text-lg shadow rounded">Successfully configured on the mobile!  Thanks</div>

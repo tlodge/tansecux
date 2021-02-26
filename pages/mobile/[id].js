@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import * as Ably from "ably";
 import { useRouter } from 'next/router'
 var ably = new Ably.Realtime('HjnoqA.Jy57GA:iYNBLTlfpk5O62Wp');
@@ -8,12 +8,16 @@ export default function MobilePage() {
 
   const router = useRouter()
   
+  const [complete, setComplete] = useState(false);
   useEffect(() => {
    
     const { id } = router.query
     if (id){
       channel.subscribe(id, function(message) {
-        console.log(message);
+        const {type} = message;
+          if (message === "complete"){
+            setRouterComplete(true)
+          }
       });
     }
   }, [router.query.id]);

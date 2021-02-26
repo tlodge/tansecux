@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import {sendToMobile} from '../../../lib/ably'
+import {sendToMobile, subscribe} from '../../../lib/ably'
 import QRCode from 'qrcode';
 import {createRef, useEffect, useState} from 'react';
 
@@ -16,7 +16,7 @@ export default function Scenario2() {
   const [values, setValues] = useState({publicKey:""});
   const [valid, setValid]   = useState({publicKey:false});
   const [complete, setComplete] = useState(false);
-  
+  const [mobilecomplete, setMobileComplete] = useState(false);
 
   const sendMessageToMobile = (message)=>{
     const { id } = router.query
@@ -41,6 +41,26 @@ export default function Scenario2() {
       },true));
   },[valid]);
 
+  useEffect(() => {
+    const { id } = router.query
+    if (id){
+      subscribe(id, ({data})=>{
+        console.log("seen data", data);
+        const {type, from} = data;
+
+        if (type === "complete" && from=="mobile"){
+          setMobileComplete(true);
+        }
+      });
+    }
+  }, [router.query.id]);
+
+  useEffect(()=>{
+    if (complete && mobilecomplete){
+      done();
+    }
+  }, [complete, mobilecomplete]);
+
   const done = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
@@ -56,7 +76,16 @@ export default function Scenario2() {
   }
 
   const renderComplete = ()=>{
-    return <div className="p-4 bg-gray-500 text-white text-lg shadow rounded">Successfully configured on the router!  Thanks</div>
+    if (complete || mobilecomplete){
+      let message = "";
+      if (mobilecomplete){
+          message = "You have successfully configured the mobile.  Thanks!  Please copy the mobile public key to the public key text box in the Peer section";
+      }else {
+          message = "You have successfully configured the router!  Thanks!  Please scan the qrcode using the mobile";
+      }
+      return <div className="mt-4 p-4 bg-gray-500 text-white text-lg shadow rounded">{message}</div>
+    }
+    return <></>
   }
 
   return (
@@ -71,7 +100,7 @@ export default function Scenario2() {
         <section>
           You will need to hold your mobile phone up to this qrcode transfer the configuration to your phone.  You will then need to copy the <strong>public key</strong> from your mobile phone to the <strong>Public Key</strong> field in the Peer section.    </section>
           <section className="mb-4">
-        {complete && renderComplete()}
+        {renderComplete()}
         </section>
         <section className="bg-gray-300 p-4 mt-8">
           <h2 className="uppercase font-bold mb-4">General Setup</h2>
@@ -110,10 +139,10 @@ export default function Scenario2() {
             </div>  
         </section>
         <section className="mt-4">
-        {complete && renderComplete()}
+        {renderComplete()}
         </section>
         <section className="flex flex-row justify-center p-8">
-            <button className="p-4 uppercase font-bold" onClick={done}>Done!</button>
+            {/*<button className="p-4 uppercase font-bold" onClick={done}>Done!</button>*/}
             <button className="p-4 uppercase font-bold" onClick={fail}>I couldn't do this</button>
         </section>
       </div>

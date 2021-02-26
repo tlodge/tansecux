@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import {sendToMobile} from '../../../lib/ably'
+import {sendToMobile, subscribe} from '../../../lib/ably'
 import { useEffect, useState } from 'react'
 
 const expectedValues = {
@@ -9,13 +9,36 @@ const expectedValues = {
 export default function Scenario1() {
 
   const router = useRouter()
- 
+
+  const [values, setValues] = useState({publicKey:""});
+  const [valid, setValid]   = useState({publicKey:false});
+  const [complete, setComplete] = useState(false);
+  const [mobilecomplete, setMobileComplete] = useState(false);
 
   const sendMessageToMobile = (message)=>{
     const { id } = router.query
     sendToMobile(id, message);
   }
 
+  useEffect(() => {
+    const { id } = router.query
+    if (id){
+      subscribe(id, ({data})=>{
+        console.log("seen data", data);
+        const {type, from} = data;
+
+        if (type === "complete" && from=="mobile"){
+          setMobileComplete(true);
+        }
+      });
+    }
+  }, [router.query.id]);
+
+  useEffect(()=>{
+    if (complete && mobilecomplete){
+      done();
+    }
+  }, [complete, mobilecomplete]);
   const done = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
@@ -30,9 +53,7 @@ export default function Scenario1() {
     router.push(`feedback/${id}`);
   }
 
-  const [values, setValues] = useState({publicKey:""});
-  const [valid, setValid]   = useState({publicKey:false});
-  const [complete, setComplete] = useState(false);
+
 
   const handleChange = (field, value)=>{
     setValues({...values, [field]: value});
@@ -46,7 +67,16 @@ export default function Scenario1() {
   },[valid]);
 
   const renderComplete = ()=>{
-    return <div className="p-4 bg-gray-500 text-white text-lg shadow rounded">Successfully configured on the router!  Thanks</div>
+    if (complete || mobilecomplete){
+      let message = "";
+      if (mobilecomplete){
+          message = "You have successfully configured the mobile.  Thanks!  Please copy the mobile public key to the public key text box in the Peer section";
+      }else {
+          message = "You have successfully configured the router!  Thanks!  Please finish configuring the mobile";
+      }
+      return <div className="mt-4 p-4 bg-gray-500 text-white text-lg shadow rounded">{message}</div>
+    }
+    return <></>
   }
 
   return (
@@ -56,7 +86,7 @@ export default function Scenario1() {
           <h2 className="mb-3 text-xl font-bold">Scenario One</h2>
         </section>
         <section className="mb-4">
-        {complete && renderComplete()}
+        {renderComplete()}
         </section>
         <section>
             You will need to provide the <strong>Addresses</strong> and  <strong>Listen Port</strong> information (in the Interface section) and the <strong>Public Key, Allowed IPs</strong> and <strong>Endpoint</strong> information (in the Peer section) to the mobile phone.
@@ -99,10 +129,10 @@ export default function Scenario1() {
             </div>  
         </section>
         <section className="mt-4">
-        {complete && renderComplete()}
+        {renderComplete()}
         </section>
         <section className="flex flex-row justify-center p-8">
-            <button className="p-4 uppercase font-bold" onClick={done}>Done!</button>
+            {/*<button className="p-4 uppercase font-bold" onClick={done}>Done!</button>*/}
             <button className="p-4 uppercase font-bold" onClick={fail}>I couldn't do this</button>
         </section>
       </div>

@@ -31,8 +31,8 @@ export default function Scenario3Feedback() {
 
  const feedback = ()=>{
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}`});
-    router.push(`/`);
+    sendMessageToMobile({type:"path", path:`${home}/thanks`});
+    router.push(`/thanks`);
  }
 
  return (

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import {sendToMobile} from '../../../lib/ably'
+import {sendToMobile, subscribe} from '../../../lib/ably'
 import * as React from "react";
 import * as d3 from "d3";
 const radius = 10;
@@ -121,6 +121,19 @@ export default function Scenario3() {
   const [complete, setComplete] = React.useState(false);
 
   console.log("selected", selected);
+  React.useEffect(() => {
+    const { id } = router.query
+    if (id){
+      subscribe(id, ({data})=>{
+        console.log("seen data", data);
+        const {type, from} = data;
+
+        if (type === "complete" && from=="mobile"){
+          done();
+        }
+      });
+    }
+  }, [router.query.id]);
 
   React.useEffect(() => {
     let _state = {};
@@ -135,13 +148,22 @@ export default function Scenario3() {
        
     
        setSelected(_state);
-       setComplete(theSame(_state, PATTERN));
+
+       if (theSame(_state, PATTERN)){
+            setComplete(true);
+            console.log("asending message to mobole!");
+            sendMessageToMobile({type:"complete"});
+        }else{
+           setComplete(false);
+       }
+       
     });
 
   }, [svg]);
 
   const sendMessageToMobile = (message)=>{
     const { id } = router.query
+    console.log("sending to mobile", id, message);
     sendToMobile(id, message);
   }
 
@@ -160,7 +182,6 @@ export default function Scenario3() {
   }
 
   const amSelected = (id, value)=>{
-      console.log("checking if", id, value, "is in", selected, selected[id] == value);
       return selected[id] == value;
   }
 
@@ -233,7 +254,7 @@ export default function Scenario3() {
             <div className="text-2xl text-bold text-center p-4 bg-gray-800 text-white">{complete && `Please touch the screen on your mobile phone to finish.`}</div>
         </section>
         <section className="flex flex-row justify-center p-8">
-            <button className="p-4 uppercase font-bold" onClick={done}>Done!</button>
+            {/*<button className="p-4 uppercase font-bold" onClick={done}>Done!</button>*/}
             <button className="p-4 uppercase font-bold" onClick={fail}>I couldn't do this</button>
         </section>
       </div>

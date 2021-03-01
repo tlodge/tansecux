@@ -1,5 +1,17 @@
 
+import QRCode from 'qrcode';
+import {createRef, useEffect, useState} from 'react';
+
 const IndexPage = ({id, home}) => {
+  const canvasRef = createRef();
+  
+  useEffect(() => {
+    QRCode.toCanvas(canvasRef.current, `${home}/m/s1/${id}`, {scale:5}, function (error) {
+      if (error) console.error(error)
+      console.log('success!');
+    });
+  },[]);
+
   return (
     <div id="welcome">
       <div className="bg-gray-200 rounded p-6">
@@ -14,13 +26,16 @@ const IndexPage = ({id, home}) => {
         </div>
         </div>
         <div className="flex flex-row mt-4">            
-          <div className="flex flex-col p-6 flex-grow justify-center items-center">
+          <div className="flex flex-col p-6 flex-grow justify-top items-center">
             <div>Click the following url on your desktop:</div>
             <div className="m-4 font-bold"><a href={`/r/s1/${id}`} target="_blank">{`${home}/r/s1/${id}`}</a></div>
           </div> 
           <div className="flex flex-col p-6 flex-grow justify-center items-center">
             <div>Enter the following url on your mobile:</div>
             <div className="m-4 font-bold"><a href={`/m/s1/${id}`} target="_blank">{`${home}/m/s1/${id}`}</a></div>
+            <section className="flex justify-center">
+              <canvas id="canvas" width="500" height="500" ref={canvasRef}></canvas>
+            </section>
           </div> 
         </div>
         <div className="mt-4 text-center">

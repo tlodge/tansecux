@@ -28,6 +28,7 @@ export default function Scenario1Intro() {
       <div className="bg-gray-200 rounded p-6">  
         <section>
             <p className="pt-4 pb-4">In the following scenario, the router (your desktop/laptop) will need some information from the mobile phone (the mobile phone's public key) and the mobile phone will need some information from the router (tunnel configuration parameters and router public key).  We will ask you to enter the information on each screen. </p>
+            <p className="pt-4 pb-4">To get going click on <strong>'start scenario one'</strong> on your desktop/laptop</p>
             <div className="mt-4 text-center font-bold text-lg">WAITING AND READY TO START</div>
         </section>
       </div>

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import {sendToMobile} from '../../../../lib/ably'
+import Image from "next/image";
 
 export default function Scenario3Intro() {
 
@@ -28,6 +29,15 @@ export default function Scenario3Intro() {
         <div className="bg-gray-700  text-white p-4 rounded">
         <section>
             <p className="pt-4 pb-4">In the final scenario, we will use physical tokens to transfer the keys.  Because you are doing this online, we have created mock tokens and token reader.</p>
+        </section>
+        <section className="flex justify-center">
+        {<Image
+            src="/threeinfo.svg"
+            width={800}
+            height={400}
+            priority
+            alt="Scenario3 router picture"/>
+        }
         </section>
         <section>
             <p className="pt-4 pb-4">We will ask you to drag and drop tokens to match a particular pattern (in the real world you'd physically place the tokens on the reader).  Once the pattern matches the configuration details will be written to a token which can then be touched on the mobile device to set up the tunnel.</p>

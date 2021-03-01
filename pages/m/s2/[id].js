@@ -37,7 +37,9 @@ export default function Scenario2() {
 
   const [video, isCameraInitialised, running, setPlaying, error] = useCamera(videoRef);
   let canvas;
-
+  if (error){
+    console.log("error", error);
+  }
   const _setCode = (code)=>{
     setCode(code);
     setValues(expectedValues);
@@ -73,6 +75,7 @@ export default function Scenario2() {
   }
 
   const renderCamera = ()=>{
+    if (!error){
     return <><video
     ref={videoRef}
     autoPlay={true}
@@ -81,6 +84,10 @@ export default function Scenario2() {
     width="auto"
     height={400}/>   
     </>
+    }
+    else{
+      return <div onClick={()=>_setCode("fake")} className="bg-red-500 text-white p-12 text-center"> ok looks like we cant't get access to your camera.  Not to worry.  Just click on this square to simulate using a QRCode</div>
+    }
   }
 
   useEffect(() => {
@@ -122,7 +129,7 @@ export default function Scenario2() {
     <div>
       <div>
         <section className="mb-6">
-          <h2  onClick={()=>_setCode("fake")} className="mb-3 text-xl font-bold">Scenario One (mobile)</h2>
+          <h2 className="mb-3 text-xl font-bold">Scenario One (mobile)</h2>
          
         </section>
         <section className="mb-4 bg-gray-700  text-white p-4 rounded">

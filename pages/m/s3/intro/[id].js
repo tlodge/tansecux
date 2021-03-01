@@ -12,7 +12,6 @@ export default function Scenario3Intro() {
     if (id){
        
         subscribe(id, ({data})=>{
-            console.log("ok seen path come in", data);
             const {path} = data;
             router.push(path);
         });

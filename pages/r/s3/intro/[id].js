@@ -36,7 +36,7 @@ export default function Scenario3Intro() {
             width={800}
             height={400}
             priority
-            alt="Scenario3 router picture"/>
+            alt="Scenario3 router and token overview"/>
         }
         </section>
         <section>

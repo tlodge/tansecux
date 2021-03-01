@@ -170,14 +170,14 @@ export default function Scenario3() {
   const done = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario3/feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${home}/m/s3/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario3/feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${home}/m/s3/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
 

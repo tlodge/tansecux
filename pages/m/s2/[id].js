@@ -123,11 +123,12 @@ export default function Scenario2() {
       <div>
         <section className="mb-6">
           <h2  onClick={()=>_setCode("fake")} className="mb-3 text-xl font-bold">Scenario One (mobile)</h2>
-          {complete && renderComplete()}
+         
         </section>
-        <section className="mb-4">
-            This time, please hold the camera over the QRCode on the router.  Once it is recognised all of the configuration will be automatically filled in for you.
+        <section className="mb-4 bg-gray-700  text-white p-4 rounded">
+            This time, please hold the camera over the QRCode on the router.  Once it is recognised the mobile's configuration will be filled in.
         </section>
+        {complete && renderComplete()}
         <section>
           {!code && renderCamera()}
           <canvas className="hidden" ref={canvasRef}></canvas>

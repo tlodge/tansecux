@@ -64,14 +64,14 @@ export default function Scenario2() {
   const done = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario2/feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${home}/m/s2/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario2/feedback/${id}`});
+    sendMessageToMobile({type:"path", path:`${home}/m/s2/feedback/${id}`});
     router.push(`feedback/${id}`);
   }
 
@@ -94,13 +94,15 @@ export default function Scenario2() {
         <section className="mb-6">
           <h2 className="mb-3 text-xl font-bold">Scenario Two</h2>
         </section>
-        <section>
-            <canvas id="canvas" width="500" height="500" ref={canvasRef}></canvas>
+       
+        <section className="bg-gray-700  text-white p-4 rounded">
+          You will need to hold your mobile phone up to this qrcode transfer the configuration to your phone.  You will then need to copy the <strong>public key</strong> from your mobile phone to the <strong>Public Key</strong> field in the Peer section.    
         </section>
-        <section>
-          You will need to hold your mobile phone up to this qrcode transfer the configuration to your phone.  You will then need to copy the <strong>public key</strong> from your mobile phone to the <strong>Public Key</strong> field in the Peer section.    </section>
-          <section className="mb-4">
-        {renderComplete()}
+        <section className="mb-4">
+          {renderComplete()}
+        </section>
+        <section className="flex justify-center">
+            <canvas id="canvas" width="500" height="500" ref={canvasRef}></canvas>
         </section>
         <section className="bg-gray-300 p-4 mt-8">
           <h2 className="uppercase font-bold mb-4">General Setup</h2>

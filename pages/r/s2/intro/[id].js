@@ -14,7 +14,7 @@ export default function Scenario2Intro() {
   const start = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario2/${id}`});
+    sendMessageToMobile({type:"path", path:`${home}/m/s2/${id}`});
     router.push(`../${id}`);
   }
   
@@ -25,11 +25,11 @@ export default function Scenario2Intro() {
         <section className="mb-6">
           <h2 className="mb-3 text-xl font-bold">About the second scenario</h2>
         </section>
-        <section>
-            <p className="pt-4 pb-4">In the next scenario, we will use a QR code and your mobile phone's camera to help move some of the information between the router and mobile phone.  You will still be required to get the public key from your mobile phone onto the router.  </p>
+        <section className="bg-gray-700  text-white p-4 rounded">
+            <p className="pt-4 pb-4">In the next scenario, we will use a qrcode and your mobile phone's camera to help move some of the information between the router and mobile phone.  You will still need to get the public key from your mobile phone onto the router.  </p>
         </section>
         <section className="pt-8 flex justify-center">
-            <a className="uppercase font-bold" onClick={start}>try scenario two</a>
+            <a className="uppercase font-bold" onClick={start}>start scenario two</a>
         </section>
       </div>
      

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import {subscribe, sendToRouter} from '../../../lib/ably'
+import {subscribe, sendToRouter} from '../../../../lib/ably'
 import { useEffect, useState } from 'react'
 
 const expectedValues = {
@@ -8,7 +8,24 @@ const expectedValues = {
   publicKey: "sTwsJLinpoUvGH7TwOkEE3Ph2V7hjutdAic/6RS7aHP=",
   endpointHost: "xor.freedns.org",
   endpointPort: "51825",
-  allowedIPs: "192.168.94.2/32, 192.168.4.0/24",
+  allowedIPs: "192.168.94.2/32,192.168.4.0/24",
+}
+
+const equivalent = (field, v1, v2)=>{
+  if (v1.replace(" ","").toLowerCase() == v2.replace(/\s/g, '').toLowerCase()){
+    return true;
+  }
+  if (field == "allowedIPs"){
+    const a = v1.split(",").map(i => i.replace(/\s/g, '').toLowerCase());
+    const b = v2.split(",").map(i => i.replace(/\s/g, '').toLowerCase());
+    if (a.length != b.length){
+      return false;
+    }
+    return a.reduce((acc,item)=>{
+      return acc && b.indexOf(item) != -1;
+    }, true)
+  }
+  return false;
 }
 
 export default function Scenario1() {
@@ -22,7 +39,7 @@ export default function Scenario1() {
 
   const handleChange = (field, value)=>{
     setValues({...values, [field]: value});
-    setValid({...valid,   [field]: expectedValues[field]==value});  
+    setValid({...valid,   [field]: equivalent(field, expectedValues[field],value)});  
   }
 
   const sendMessageToRouter = (message)=>{
@@ -61,13 +78,20 @@ export default function Scenario1() {
   return (
     <div>
       <div>
-        <section className="mb-6">
-          <h2 className="mb-3 text-xl font-bold">Scenario One (mobile)</h2>
-          {complete && renderComplete()}
-        </section>
-        <section>
-            You will need to provide the <strong>Addresses</strong> and  <strong>Listen Port</strong> information (in the Interface section) and the <strong>Public Key, Allowed IPs</strong> and <strong>Endpoint</strong> information (in the Peer section) to the mobile phone.
-        </section>
+       
+          <section className="mb-6">
+            <h2 className="mb-3 text-xl font-bold">Scenario One (mobile)</h2>
+            {complete && renderComplete()}
+          </section>
+          <div className="bg-gray-700  text-white p-4 rounded">
+          <section>
+            <div className="mt-4">Please take the <strong>Public Key</strong> from this phone's <strong>Interface section </strong> and enter it onto the (purple) input area on your router (desktop/laptop).
+            </div>
+            
+            <div className="mt-4 mb-4">From your router (desktop/laptop) please take the <strong>Addresses</strong> and <strong>Listen Port</strong> information (in the Interface section) and the <strong>Public Key, Allowed IPs</strong> and <strong>Endpoint</strong> information (in the Peer section) from this form, and enter them into the relevant purple sections on this mobile.
+              </div>
+          </section>
+        </div>
         <section className="bg-gray-300 p-4 mt-8">
           <h2 className="uppercase font-bold mb-4">Interface</h2>
             <div className="font-semibold"> Private key </div>

@@ -1,16 +1,20 @@
 import { useRouter } from 'next/router'
 import {sendToMobile} from '../../../../lib/ably'
 
-export default function Scenario2Feedback() {
+export default function Scenario1Feedback() {
 
   const router = useRouter()
-  const { id } = router.query;
+  const { id } = router.query
 
+  const sendMessageToMobile = (message)=>{
+    const { id } = router.query
+    sendToMobile(id, message);
+  }
 
   const understandrow = [1,2,3,4,5].map(i=>{
         return (<div className="pr-8">
             <label className="inline-flex items-center">
-                <input type="radio" name="understand2" value={i}/>
+                <input type="radio" name="understand1" value={i}/>
                 <span className="ml-2">{i}</span>
             </label>
         </div>);
@@ -19,30 +23,27 @@ export default function Scenario2Feedback() {
   const transferrow = [1,2,3,4,5].map(i=>{
     return (<div className="pr-8">
         <label className="inline-flex items-center">
-            <input type="radio" name="transfer2" value={i}/>
+            <input type="radio" name="transfer1" value={i}/>
             <span className="ml-2">{i}</span>
         </label>
     </div>);
  });
- 
- const sendMessageToMobile = (message)=>{
-    const { id } = router.query
-    sendToMobile(id, message);
-}
 
  const feedback = ()=>{
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario3/intro/${id}`});
-    router.push(`/router/scenario3/intro/${id}`);
+    sendMessageToMobile({type:"path", path:`${home}/m/s2/intro/${id}`});
+    router.push(`/r/s2/intro/${id}`);
  }
-  return (
+
+ console.log("router is", router);
+ return (
     <div>
       <div>
         <section>
-          <h2 className="mb-3 text-xl font-bold">How did it go?  Feedback on scenario two.</h2>
+          <h2 className="mb-3 text-xl font-bold">How did it go?  Feedback on scenario one.</h2>
         </section>
         <section className="mb-8">
-            Thank you, only one more to go!  We'd really appreciate it if provide feedback on the second scenario.
+            Thank you, only two more to go!  We'd really appreciate it if you could briefly provide feedback on the first scenario.
         </section>
        
             <section className="bg-gray-300 p-4 w-3/4 pt-12 pl-8">
@@ -77,3 +78,4 @@ export default function Scenario2Feedback() {
     </div>
   );
 }
+  

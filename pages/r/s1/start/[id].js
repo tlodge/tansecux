@@ -1,9 +1,26 @@
 import { useRouter } from 'next/router'
-import {sendToMobile, subscribe} from '../../../lib/ably'
+import {sendToMobile, subscribe} from '../../../../lib/ably'
 import { useEffect, useState } from 'react'
 
 const expectedValues = {
   publicKey: "wFwsYTinuuUvZZ5TwOkEE3Ph2V7rpqseA/cv6RS66HI=",
+}
+
+const equivalent = (field, v1, v2)=>{
+  if (v1.replace(" ","").toLowerCase() == v2.replace(/\s/g, '').toLowerCase()){
+    return true;
+  }
+  if (field == "allowedIPs"){
+    const a = v1.split(",").map(i => i.replace(/\s/g, '').toLowerCase());
+    const b = v2.split(",").map(i => i.replace(/\s/g, '').toLowerCase());
+    if (a.length != b.length){
+      return false;
+    }
+    return a.reduce((acc,item)=>{
+      return acc && b.indexOf(item) != -1;
+    }, true)
+  }
+  return false;
 }
 
 export default function Scenario1() {
@@ -42,22 +59,22 @@ export default function Scenario1() {
   const done = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario1/feedback/${id}`});
-    router.push(`feedback/${id}`);
+    sendMessageToMobile({type:"path", path:`${home}/m/s1/feedback/${id}`});
+    router.push(`/r/s1/feedback/${id}`);
   }
   
   const fail = ()=>{
     const { id } = router.query;
     const home = window ? window.location.origin : '';
-    sendMessageToMobile({type:"path", path:`${home}/mobile/scenario1/feedback/${id}`});
-    router.push(`feedback/${id}`);
+    sendMessageToMobile({type:"path", path:`${home}/m/s1/feedback/${id}`});
+    router.push(`/r/s1/feedback/${id}`);
   }
 
 
 
   const handleChange = (field, value)=>{
     setValues({...values, [field]: value});
-    setValid({...valid,   [field]: expectedValues[field]==value});  
+    setValid({...valid,   [field]: equivalent(field, expectedValues[field],value)});  
   }
 
   useEffect(() => {
@@ -88,8 +105,11 @@ export default function Scenario1() {
         <section className="mb-4">
         {renderComplete()}
         </section>
-        <section>
-            You will need to provide the <strong>Addresses</strong> and  <strong>Listen Port</strong> information (in the Interface section) and the <strong>Public Key, Allowed IPs</strong> and <strong>Endpoint</strong> information (in the Peer section) to the mobile phone.
+        <section className="bg-gray-700  text-white p-4 rounded">
+            <div className="mt-4">Please take the <strong>Addresses</strong> and <strong>Listen Port</strong> information (in the Interface section) and the <strong>Public Key, Allowed IPs</strong> and <strong>Endpoint</strong> information (in the Peer section) from this form, and enter it into the form on the mobile phone (each purple input area expects configuration details).
+            </div>
+            <div className="mt-4 mb-4">Please also take the <strong>Public Key</strong> from the mobile phone's <strong>Interface section </strong> and enter it onto the (purple) input area.
+            </div>
         </section>
         <section className="bg-gray-300 p-4 mt-8">
           <h2 className="uppercase font-bold mb-4">General Setup</h2>

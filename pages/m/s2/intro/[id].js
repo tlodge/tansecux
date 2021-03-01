@@ -22,14 +22,18 @@ export default function Scenario1Intro() {
   return (
     <div>
       <div>
+        
         <section className="mb-6">
           <h2 className="mb-3 text-xl font-bold">About the second scenario</h2>
         </section>
+        </div>
         <section>
-            <p className="pt-4 pb-4">In the following scenario, you'll use a QRCODE to configure your mobile. </p>
-            <div>WAITING AND READY TO START</div>
+        <div className="bg-gray-700  text-white p-4 rounded">
+            <p className="pt-4 pb-4">In the following scenario, you'll use a qrcode to help configure your mobile.</p>
+            </div>
+            <div className="text-lg font-bold text-center mt-4">WAITING AND READY TO START</div>
         </section>
       </div>
-    </div>
+
   );
 }

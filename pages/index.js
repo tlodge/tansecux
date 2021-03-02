@@ -2,9 +2,9 @@
 import QRCode from 'qrcode';
 import {createRef, useEffect, useState} from 'react';
 
-const IndexPage = ({home}) => {
+const IndexPage = ({id, home}) => {
   const canvasRef = createRef();
-  const id = Math.round(Math.random()  * 500);
+  
 
   useEffect(() => {
     QRCode.toCanvas(canvasRef.current, `${home}/m/s1/${id}`, {scale:5}, function (error) {

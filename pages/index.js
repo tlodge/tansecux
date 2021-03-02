@@ -47,7 +47,7 @@ const IndexPage = ({id, home}) => {
   );
 };
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   return {
     props: {id: Math.round(Math.random()  * 500), home: process.env.ROOT}
   }

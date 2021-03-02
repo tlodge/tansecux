@@ -8,7 +8,6 @@ const IndexPage = ({id, home}) => {
   useEffect(() => {
     QRCode.toCanvas(canvasRef.current, `${home}/m/s1/${id}`, {scale:5}, function (error) {
       if (error) console.error(error)
-      console.log('success!');
     });
   },[]);
 
